@@ -2,6 +2,7 @@
 #define MYCPU_CPU_H
 
 #include "mycpu/types.h"
+#include "mycpu/memory.h"
 
 typedef enum {
     CPU_STOPPED = 0,
@@ -25,7 +26,8 @@ typedef struct {
 } cpu_t;
 
 void cpu_init(cpu_t *cpu);
-void cpu_reset(cpu_t *cpu, uint32_t entry);
-void cpu_step(cpu_t *cpu);
+void cpu_reset(cpu_t *cpu, uint32_t entry, uint32_t stack_top);
+void cpu_step(cpu_t *cpu, memory_t *memory);
+void cpu_run(cpu_t *cpu, memory_t *memory, uint32_t max_steps);
 
 #endif

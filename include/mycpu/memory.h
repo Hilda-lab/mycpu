@@ -13,6 +13,10 @@ typedef struct {
 bool memory_init(memory_t *memory, size_t size);
 void memory_free(memory_t *memory);
 bool memory_read8(const memory_t *memory, uint32_t addr, uint8_t *value);
+bool memory_read16(const memory_t *memory, uint32_t addr, uint16_t *value);
+bool memory_read32(const memory_t *memory, uint32_t addr, uint32_t *value);
 bool memory_write8(memory_t *memory, uint32_t addr, uint8_t value);
+bool memory_write16(memory_t *memory, uint32_t addr, uint16_t value);
+bool memory_write32(memory_t *memory, uint32_t addr, uint32_t value);
 
 #endif
