@@ -29,3 +29,13 @@ add_executable(mycpu_tests
 )
 target_link_libraries(mycpu_tests PRIVATE mycpu_core)
 add_test(NAME mycpu_tests COMMAND mycpu_tests)
+
+add_executable(test_detailed
+    tests/test_detailed.c
+)
+target_link_libraries(test_detailed PRIVATE mycpu_core)
+
+add_executable(test_simple
+    tests/test_simple.c
+)
+target_link_libraries(test_simple PRIVATE mycpu_core)
