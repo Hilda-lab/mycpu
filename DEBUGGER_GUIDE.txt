@@ -1,0 +1,103 @@
+================================================================================
+                        myCPU Debugger Guide
+================================================================================
+
+STARTING
+--------
+  $ ./build/mycpu_debugger
+
+KEYBOARD CONTROLS
+-----------------
+  R       - Run continuously (until breakpoint or HLT)
+  S       - Single step (execute one instruction)
+  B       - Set breakpoint at current EIP
+  M       - Memory view at EIP
+  X       - Reset CPU to initial state
+  P       - Set breakpoint at custom address
+  G       - Goto specific memory address
+  J/K     - Scroll memory view down/up
+  Q       - Quit debugger
+
+DISPLAY PANELS
+--------------
+  REGISTERS    - Shows all 8 general-purpose registers (EAX-ESP)
+                 Yellow = value changed in last step
+
+  FLAGS        - Shows EFLAGS register and condition flags:
+                 CF=Carry Flag    - Set if arithmetic overflow
+                 PF=Parity Flag   - Set if result has even parity
+                 AF=Auxiliary     - BCD arithmetic support
+                 ZF=Zero Flag     - Set if result is zero
+                 SF=Sign Flag     - Set if result is negative
+                 OF=Overflow Flag - Set if signed overflow
+
+  MEMORY DUMP  - Shows raw bytes at current memory location
+                 Use G to goto address, J/K to scroll
+
+  DISASSEMBLY  - Shows decoded instructions at EIP
+                 >>> marks current instruction to execute
+
+  BREAKPOINTS  - Lists active breakpoints
+
+================================================================================
+                        INSTRUCTION REFERENCE
+================================================================================
+
+  Data Movement:
+    MOV reg, imm     - Load immediate value into register
+    MOV reg1, reg2   - Copy reg2 to reg1
+    MOV reg, [reg]   - Load from memory address in reg
+    MOV [reg], reg   - Store to memory address in reg
+
+  Arithmetic:
+    ADD reg1, reg2   - reg1 = reg1 + reg2
+    ADD reg, imm     - reg = reg + immediate
+    SUB reg1, reg2   - reg1 = reg1 - reg2
+    SUB reg, imm     - reg = reg - immediate
+    CMP reg, imm     - Compare reg with imm (sets flags only)
+    INC reg          - reg = reg + 1
+    DEC reg          - reg = reg - 1
+
+  Logic:
+    AND reg1, reg2   - reg1 = reg1 & reg2 (bitwise AND)
+    OR  reg1, reg2   - reg1 = reg1 | reg2 (bitwise OR)
+    XOR reg1, reg2   - reg1 = reg1 ^ reg2 (bitwise XOR)
+    NOT reg          - reg = ~reg (bitwise NOT)
+    TEST reg1, reg2  - AND without storing result (sets flags)
+
+  Shift:
+    SHL reg1, reg2   - reg1 = reg1 << reg2 (shift left)
+    SHR reg1, reg2   - reg1 = reg1 >> reg2 (shift right)
+
+  Control Flow:
+    JMP addr         - Jump to address
+    JZ  addr         - Jump if Zero Flag set
+    JNZ addr         - Jump if Zero Flag not set
+    JC  addr         - Jump if Carry Flag set
+    JNC addr         - Jump if Carry Flag not set
+    JS  addr         - Jump if Sign Flag set
+    JNS addr         - Jump if Sign Flag not set
+    JO  addr         - Jump if Overflow Flag set
+    JNO addr         - Jump if Overflow Flag not set
+    CALL addr        - Push return address, jump to addr
+    RET              - Pop return address, jump to it
+
+  Stack:
+    PUSH reg         - Push register onto stack
+    POP reg          - Pop from stack into register
+
+  Other:
+    HLT              - Halt execution
+
+REGISTER NAMES
+--------------
+  EAX - Accumulator (often used for return values)
+  EBX - Base register
+  ECX - Counter (often used for loops)
+  EDX - Data register
+  ESI - Source Index
+  EDI - Destination Index
+  EBP - Base Pointer
+  ESP - Stack Pointer
+
+================================================================================
