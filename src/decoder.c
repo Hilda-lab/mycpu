@@ -55,8 +55,20 @@ bool decode_instruction(const memory_t *memory, uint32_t eip, instruction_t *ins
         case OP_NOP:
         case OP_CLC:
         case OP_STC:
+        case OP_IRET:
+        case OP_CLI:
+        case OP_STI:
             inst->length = 1;
             return true;
+
+        case OP_PUSHF:
+        case OP_POPF:
+            inst->length = 1;
+            return true;
+
+        case OP_INT_IMM8:
+            inst->length = 2;
+            return memory_read8(memory, eip + 1u, &inst->imm8);
 
         case OP_LOOP_REL8:
             inst->length = 2;

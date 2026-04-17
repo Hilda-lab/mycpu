@@ -9,6 +9,7 @@ typedef struct {
     uint8_t reg_a;
     uint8_t reg_b;
     uint32_t imm32;
+    uint8_t imm8;      // 8位立即数
     uint8_t length;
 } instruction_t;
 

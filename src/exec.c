@@ -1,6 +1,7 @@
 #include "mycpu/exec.h"
 
 #include "mycpu/isa.h"
+#include "mycpu/cpu.h"
 
 static uint32_t *reg_ptr(cpu_t *cpu, uint8_t reg_id) {
     switch (reg_id) {
@@ -584,6 +585,49 @@ void execute_instruction(cpu_t *cpu, memory_t *memory, const instruction_t *inst
                 return;
             }
             *dst = value;
+            cpu->eip = next_eip;
+            return;
+
+        case OP_PUSHF:
+            // 标志寄存器入栈
+            if (!stack_push32(cpu, memory, cpu->eflags)) {
+                cpu->state = CPU_EXCEPTION;
+                return;
+            }
+            cpu->eip = next_eip;
+            return;
+
+        case OP_POPF:
+            // 从栈中弹出标志寄存器
+            if (!stack_pop32(cpu, memory, &value)) {
+                cpu->state = CPU_EXCEPTION;
+                return;
+            }
+            cpu->eflags = value;
+            // 同步中断使能标志
+            cpu->interrupts_enabled = (value & EFLAGS_IF) != 0;
+            cpu->eip = next_eip;
+            return;
+
+        case OP_INT_IMM8:
+            // 软中断
+            cpu_interrupt(cpu, memory, inst->imm8, 0);
+            return;
+
+        case OP_IRET:
+            // 中断返回
+            cpu_iret(cpu, memory);
+            return;
+
+        case OP_CLI:
+            // 禁用中断
+            cpu_disable_interrupts(cpu);
+            cpu->eip = next_eip;
+            return;
+
+        case OP_STI:
+            // 启用中断
+            cpu_enable_interrupts(cpu);
             cpu->eip = next_eip;
             return;
 

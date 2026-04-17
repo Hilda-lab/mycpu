@@ -70,6 +70,14 @@ typedef enum {
     OP_PUSH_REG = 0x50,
     OP_POP_REG = 0x51,
     
+    // 系统指令 (0x60-0x6F)
+    OP_PUSHF = 0x60,        // PUSHF - 标志寄存器入栈
+    OP_POPF = 0x61,         // POPF - 标志寄存器出栈
+    OP_INT_IMM8 = 0x62,     // INT imm8 - 软中断
+    OP_IRET = 0x63,         // IRET - 中断返回
+    OP_CLI = 0x64,          // CLI - 禁用中断
+    OP_STI = 0x65,          // STI - 启用中断
+    
     // 系统指令 (0xFF)
     OP_HLT = 0xFF
 } opcode_t;

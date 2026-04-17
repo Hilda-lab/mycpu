@@ -17,6 +17,10 @@ add_library(mycpu_core
     src/loader.c
     src/uart.c
     src/assembler.c
+    src/pic.c
+    src/pit.c
+    src/idt.c
+    src/mmu.c
 )
 
 add_executable(mycpu
@@ -50,6 +54,11 @@ add_executable(test_new_inst
     tests/test_new_inst.c
 )
 target_link_libraries(test_new_inst PRIVATE mycpu_core)
+
+add_executable(test_interrupt
+    tests/test_interrupt.c
+)
+target_link_libraries(test_interrupt PRIVATE mycpu_core)
 
 # Visual debugger (ncurses)
 add_executable(mycpu_debugger
